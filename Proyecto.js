@@ -11,6 +11,7 @@ function pintarAbecedario() {
 
         button.onclick = function () {
             this.style.visibility = "hidden"; // Ocultar el botón
+            alert("Letra " + abc[i] + " borrada"); //Muestra una alerta de la letra borrada
             comprobarIntentos(Abced[i]);
         }
     }
