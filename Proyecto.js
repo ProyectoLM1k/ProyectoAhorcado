@@ -75,8 +75,13 @@ function actualizarImagen(intentos) {
         document.getElementById(img).style.opacity = i === 6 - intentos ? "1" : "0"; // Establece la opacidad de la imagen.
     }
 }
-function FinJuego() {
-    //Por hacer
+
+function FinJuego(intentosRestantes, guiones) { //Recibe los guiones que hay y las "vidas" que quedan
+    if(intentosRestantes==0 && guiones.includes('-')){ //Si quedan 0 vidas y aún hay guiones, sale el mensaje
+        alert("Game Over");
+    } else if (!guiones.includes('-')){ //Si no hay guiones imprime lo de abajo
+        alert("Felicidades!!")
+    }
 }
 
 document.addEventListener('DOMContentLoaded', inicio);
