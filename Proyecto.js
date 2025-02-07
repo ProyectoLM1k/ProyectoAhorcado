@@ -41,10 +41,7 @@ function inicio() {
     document.getElementById("msg-final").classList.remove("zoom-in"); // Elimina la clase de animación del mensaje final.
 }
 
-function pintarGuiones() {
-    const contenedorPalabra = document.getElementById("palabra"); // Obtiene el elemento HTML donde se mostrarán los guiones.
-    contenedorPalabra.textContent = palabraGuiones.join(" "); // Muestra los guiones (y letras adivinadas) en el elemento HTML.
-}
+
 
 function comprobarIntentos(letraSeleccionada) {
     let acierto = false; // Variable para indicar si la letra seleccionada está en la palabra secreta.
@@ -58,16 +55,31 @@ function comprobarIntentos(letraSeleccionada) {
     if (acierto) { // Si hubo un acierto.
         document.getElementById("acierto").textContent = "¡Bien!"; // Muestra un mensaje de "¡Bien!" en la pantalla.
         document.getElementById("acierto").classList.add("verde"); // Añade la clase "verde" al mensaje de acierto para que se muestre en color verde.
-        pintarGuiones(); // Actualiza los guiones en la pantalla.
+        document.getElementById("acierto").classList.remove("rojo");
+        document.getElementById("acierto").classList.add("zoom-in");
     } else { // Si no hubo un acierto.
         document.getElementById("acierto").textContent = "¡Error!"; // Muestra un mensaje de "¡Error!" en la pantalla.
         document.getElementById("acierto").classList.add("rojo"); // Añade la clase "rojo" al mensaje de error para que se muestre en color rojo.
+        document.getElementById("acierto").classList.remove("verde");
+        document.getElementById("acierto").classList.add("zoom-in");
         intentosRestantes--; // Decrementa el número de intentos restantes.
         actualizarImagen(intentosRestantes); // Actualiza la imagen del ahorcado.
         document.getElementById("intentos").textContent = intentosRestantes; // Actualiza el número de intentos restantes en la pantalla.
     }
-
+    pintarGuiones();
     FinJuego(); // Verifica si el juego ha terminado.
+    setTimeout(desaparecerMensaje, 1000);
+}
+
+function desaparecerMensaje() {
+    let elementoAcierto = document.getElementById("acierto");
+    elementoAcierto.textContent = ""; // Limpia el mensaje
+    elementoAcierto.classList.remove("verde", "rojo", "zoom-in");
+}
+
+function pintarGuiones() {
+    let contenedorPalabra = document.getElementById("palabra"); // Obtiene el elemento HTML donde se mostrarán los guiones.
+    contenedorPalabra.textContent = palabraGuiones.join(" "); // Muestra los guiones (y letras adivinadas) en el elemento HTML.
 }
 function actualizarImagen(intentos) {
     // Itera sobre el array de nombres de imágenes del ahorcado.

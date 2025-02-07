@@ -28,7 +28,7 @@ h1#msg-final {
   transform: scale(0);
 }
 .acierto {
-  animation: zoomInOut 1s ease;
+  animation: zoomI nOut 1s ease;
 }
 .rojo {
   color: red;
