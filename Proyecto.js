@@ -81,9 +81,19 @@ function FinJuego() {
     if (!palabraGuiones.includes("-")) {
         document.getElementById("msg-final").textContent = "¡Felicidades!";
         document.getElementById("msg-final").classList.add("zoom-in");
+        // Ocultar todos los botones al ganar
+        let botones= Array.from(document.querySelectorAll("#letra button"));
+        for (let i = 0; i < botones.length; i++) {
+            botones[i].style.visibility = "hidden";
+        }
     } else if (intentosRestantes <= 0) {
         document.getElementById("msg-final").textContent = "Game Over"
         document.getElementById("msg-final").classList.add("zoom-in");
+        // Ocultar todos los botones al ganar
+        let botones = Array.from(document.querySelectorAll("#letra button"));
+        for (let i = 0; i < botones.length; i++) {
+            botones[i].style.visibility = "hidden";
+        }
     }
 }
 
