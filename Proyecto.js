@@ -11,7 +11,6 @@ function pintarAbecedario() {
 
         button.onclick = function () {
             this.style.visibility = "hidden"; // Ocultar el botón
-            alert("Letra " + abc[i] + " borrada"); //Muestra una alerta de la letra borrada
             comprobarIntentos(Abced[i]);
         }
     }
@@ -26,11 +25,13 @@ let palabraGuiones = []; // Array para almacenar las letras adivinadas y los gui
 let intentosRestantes = 6; // Variable para almacenar el número de intentos restantes.
 
 function inicio() {
+    palabraSecreta = palabrasPosibles[Math.floor(Math.random() * palabrasPosibles.length)]; // Selecciona una palabra secreta aleatoria del array palabrasPosibles.
+    palabraGuiones = Array(palabraSecreta.length).fill("-"); // Crea un array de guiones para la palabra secreta.
     intentosRestantes = 6; // Reinicia el número de intentos restantes.
     document.getElementById("intentos").textContent = intentosRestantes; // Actualiza el número de intentos restantes en la pantalla.
     document.getElementById("acierto").textContent = ""; // Limpia el mensaje de acierto/error.
     actualizarImagen(intentosRestantes); // Actualiza la imagen del ahorcado.
-
+    pintarGuiones(); // Muestra los guiones en la pantalla.
 
     const botones = document.querySelectorAll("#letra button"); // Obtiene todos los botones del abecedario.
     for (let i = 0; i < botones.length; i++) { // Itera sobre los botones del abecedario.
@@ -41,7 +42,8 @@ function inicio() {
 }
 
 function pintarGuiones() {
-//Por hacer
+    const contenedorPalabra = document.getElementById("palabra"); // Obtiene el elemento HTML donde se mostrarán los guiones.
+    contenedorPalabra.textContent = palabraGuiones.join(" "); // Muestra los guiones (y letras adivinadas) en el elemento HTML.
 }
 
 function comprobarIntentos(letraSeleccionada) {
@@ -53,9 +55,6 @@ function comprobarIntentos(letraSeleccionada) {
         }
     }
 
-    /**
-     * Esta parte no funciona del todo
-     */
     if (acierto) { // Si hubo un acierto.
         document.getElementById("acierto").textContent = "¡Bien!"; // Muestra un mensaje de "¡Bien!" en la pantalla.
         document.getElementById("acierto").classList.add("verde"); // Añade la clase "verde" al mensaje de acierto para que se muestre en color verde.
@@ -67,8 +66,9 @@ function comprobarIntentos(letraSeleccionada) {
         actualizarImagen(intentosRestantes); // Actualiza la imagen del ahorcado.
         document.getElementById("intentos").textContent = intentosRestantes; // Actualiza el número de intentos restantes en la pantalla.
     }
-}
 
+    FinJuego(); // Verifica si el juego ha terminado.
+}
 function actualizarImagen(intentos) {
     // Itera sobre el array de nombres de imágenes del ahorcado.
     for (let i = 0; i < imagenesAhorcado.length; i++) {
@@ -77,37 +77,14 @@ function actualizarImagen(intentos) {
     }
 }
 
-function FinJuego(intentosRestantes, guiones) { //Recibe los guiones que hay y las "vidas" que quedan
-    if(intentosRestantes==0 && guiones.includes('-')){ //Si quedan 0 vidas y aún hay guiones, sale el mensaje
-        alert("Game Over");
-    } else if (!guiones.includes('-')){ //Si no hay guiones imprime lo de abajo
-        alert("Felicidades!!")
+function FinJuego() {
+    if (!palabraGuiones.includes("-")) {
+        document.getElementById("msg-final").textContent = "¡Felicidades!";
+        document.getElementById("msg-final").classList.add("zoom-in");
+    } else if (intentosRestantes <= 0) {
+        document.getElementById("msg-final").textContent = "Game Over"
+        document.getElementById("msg-final").classList.add("zoom-in");
     }
 }
 
 document.addEventListener('DOMContentLoaded', inicio);
-
-
-// Generador de palabras aleatorias
-// Guardamos las palabras que queramos que esten en el juego en un array
-const palabras = ["Edificio", "Instituto", "Javascript", "Ordenador", "Ahorcado"];
-
-function elegirPalabra() {
-    const indice = Math.floor(Math.random() * palabras.length); // Número aleatorio del 0 al 4
-    return palabras[indice]; // Devuelve la palabra seleccionada
-}
-
-// Función para generar guiones bajos según la longitud de la palabra
-function generarGuiones(palabra) {
-    return "_ ".repeat(palabra.length).trim(); // Genera los guiones con espacios segun el numero de letras
-}
-
-// Boton para empezar la partida escogiendo una palabra
-function iniciarJuego() {
-    palabraSecreta = elegirPalabra(); // Elegir palabra aleatoria
-    const guiones = generarGuiones(palabraSecreta); // Crear guiones según la longitud
-    document.getElementById("palabra-oculta").textContent = guiones;
-}
-
-
-    window.onload = pintarAbecedario; //Se ejecuta la función cada vez que se recarga la ventana (página)
