@@ -86,3 +86,28 @@ function FinJuego(intentosRestantes, guiones) { //Recibe los guiones que hay y l
 }
 
 document.addEventListener('DOMContentLoaded', inicio);
+
+
+// Generador de palabras aleatorias
+// Guardamos las palabras que queramos que esten en el juego en un array
+const palabras = ["Edificio", "Instituto", "Javascript", "Ordenador", "Ahorcado"];
+
+function elegirPalabra() {
+    const indice = Math.floor(Math.random() * palabras.length); // Número aleatorio del 0 al 4
+    return palabras[indice]; // Devuelve la palabra seleccionada
+}
+
+// Función para generar guiones bajos según la longitud de la palabra
+function generarGuiones(palabra) {
+    return "_ ".repeat(palabra.length).trim(); // Genera los guiones con espacios segun el numero de letras
+}
+
+// Boton para empezar la partida escogiendo una palabra
+function iniciarJuego() {
+    palabraSecreta = elegirPalabra(); // Elegir palabra aleatoria
+    const guiones = generarGuiones(palabraSecreta); // Crear guiones según la longitud
+    document.getElementById("palabra-oculta").textContent = guiones;
+}
+
+
+    window.onload = pintarAbecedario; //Se ejecuta la función cada vez que se recarga la ventana (página)
