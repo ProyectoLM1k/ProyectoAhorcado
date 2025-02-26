@@ -110,3 +110,39 @@ function FinJuego() {
 }
 
 document.addEventListener('DOMContentLoaded', inicio);
+
+function guardarPartida() {
+    const partida = {
+        palabraSecreta: palabraSecreta,
+        palabraGuiones: palabraGuiones,
+        intentosRestantes: intentosRestantes,
+        imagenesAhorcado: imagenesAhorcado.map(img => document.getElementById(img).style.opacity)
+    };
+
+    localStorage.setItem("partidaAhorcado", JSON.stringify(partida));
+    alert("Partida guardada.");
+}
+
+function cargarPartida() {
+    const partidaGuardada = localStorage.getItem("partidaAhorcado");
+
+    if (partidaGuardada) {
+        const partida = JSON.parse(partidaGuardada);
+
+        palabraSecreta = partida.palabraSecreta;
+        palabraGuiones = partida.palabraGuiones;
+        intentosRestantes = partida.intentosRestantes;
+
+        // Restaurar el estado de las imágenes
+        partida.imagenesAhorcado.forEach((opacidad, index) => {
+            document.getElementById(imagenesAhorcado[index]).style.opacity = opacidad;
+        });
+
+        document.getElementById("intentos").textContent = intentosRestantes;
+        pintarGuiones();
+
+        alert("Partida cargada.");
+    } else {
+        alert("No hay partida guardada.");
+    }
+}
